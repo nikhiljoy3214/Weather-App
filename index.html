@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>  
+    <title>Weather App</title>
+</head>
+<body style="background-color: cadetblue;">
+        <div class="container mt-5" style=" background-image: url(https://cdn.dribbble.com/users/778661/screenshots/2714153/media/395835f784774e3727f9ae83b3c9368f.png?compress=1&resize=768x576&vertical=center);">
+            <div class="container p-5">
+                <div class="text-center ">
+                    <h1 class="fw-bold mt-1">Weather Condition</h1>
+                    <input id="cname" type="text" class="form-control m-2 text-center" placeholder="Enter City Name">
+                    <div class="row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <button type="button" onclick="searchData()" class="w-50 form-control btn btn-success m-2 ">Search</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" onclick="refresh()" class="w-50 form-control btn btn-success m-2 ">Refresh</button>
+                        </div>
+                    </div>                            
+
+                </div> 
+                <div class="container">
+                    <h1 class="fw-bold text-light" id="cityName"></h1>
+                    <div class="row">
+                        <div class="col-sm-6 mb-3 mb-sm-0 ">
+                          <div class="border-info">
+                            <div class="">
+                                
+                                <h5 id="date"></h5>
+                                <h4>Temperature</h4>
+                                <p id="temp"></p>
+                                <h4>Humidity</h4>
+                                <p id="hum"></p>
+                                
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="border-info">
+                            <div class="">
+                                <h4>Wind</h4>
+                                <p id="wd"></p>
+                                <h4>Presure</h4>
+                                <p id="prs"p>
+                                <h4>Feels like</h4>
+                                <p id="feel"></p>
+                                
+
+                            
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+<script>
+    
+    function searchData(){
+        city=cname.value
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5fe36b192ffd1c36dffb6752bc1722b2`)
+        .then(data=>data.json()).then(data=>displayData(data))
+
+        function displayData(cdata){
+            city_name=cdata.name
+            // temprecture = ((cdata.main.temp) - 273.15).toFixed(1)
+            humidity = cdata.main.humidity
+            // wind = cdata.wind.speed
+            pressure = cdata.main.pressure
+            feels = ((cdata.main.feels_like) - 273.15).toFixed(1)
+
+
+            cityName.innerHTML=`${city_name}`
+            // temp.innerHTML=`${temprecture}`
+            hum.innerHTML=`${humidity}`
+            // wd.innerHTML = `${wind}`
+            prs.innerHTML = `${pressure}`
+            feel.innerHTML= `${feels}`
+            date.innerHTML= `<p>${Date()}</p>`
+            wd.innerHTML= `<p>${cdata.wind.speed} kmph</p>`
+            temp.innerHTML=`<p>${((cdata.main.temp) - 273.15).toFixed(1)} °C <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cloud-sun" viewBox="0 0 16 16">
+                                    <path d="M7 8a3.5 3.5 0 0 1 3.5 3.555.5.5 0 0 0 .624.492A1.503 1.503 0 0 1 13 13.5a1.5 1.5 0 0 1-1.5 1.5H3a2 2 0 1 1 .1-3.998.5.5 0 0 0 .51-.375A3.502 3.502 0 0 1 7 8zm4.473 3a4.5 4.5 0 0 0-8.72-.99A3 3 0 0 0 3 16h8.5a2.5 2.5 0 0 0 0-5h-.027z"/>
+                                    <path d="M10.5 1.5a.5.5 0 0 0-1 0v1a.5.5 0 0 0 1 0v-1zm3.743 1.964a.5.5 0 1 0-.707-.707l-.708.707a.5.5 0 0 0 .708.708l.707-.708zm-7.779-.707a.5.5 0 0 0-.707.707l.707.708a.5.5 0 1 0 .708-.708l-.708-.707zm1.734 3.374a2 2 0 1 1 3.296 2.198c.199.281.372.582.516.898a3 3 0 1 0-4.84-3.225c.352.011.696.055 1.028.129zm4.484 4.074c.6.215 1.125.59 1.522 1.072a.5.5 0 0 0 .039-.742l-.707-.707a.5.5 0 0 0-.854.377zM14.5 6.5a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z"/>
+                                  </svg></p>`
+
+            
+        }
+    }
+    
+    
+
+
+    function refresh(){
+        window.location="index.html"
+    }
+</script>
+
+</html>
